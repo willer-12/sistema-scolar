@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head(title)">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title th:text="${title} + ' | Control Escolar'">
+        Control Escolar
+    </title>
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
+    <script defer th:src="@{/js/app.js}"></script>
+
+</head>
+
+<body>
+
+    <!-- =========================
+         BARRA SUPERIOR
+         ========================= -->
+
+    <nav th:fragment="nav" class="topbar">
+
+        <a class="brand" th:href="@{/dashboard}">
+
+            <span class="brand-mark">
+                JF
+            </span>
+
+            <span>
+                <b>Control Escolar</b>
+
+                <small>
+                    I.E. José Faustino Sánchez Carrión
+                </small>
+            </span>
+
+        </a>
+
+        <div class="userbox">
+
+            <span th:text="${#authentication.name}">
+            </span>
+
+            <span
+                class="role-pill"
+                th:text="${#strings.replace(
+                    #authentication.authorities.iterator().next().authority,
+                    'ROLE_',
+                    ''
+                )}">
+            </span>
+
+            <form
+                th:action="@{/logout}"
+                method="post">
+
+                <button
+                    class="link-btn"
+                    type="submit">
+                    Salir
+                </button>
+
+            </form>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         MENÚ LATERAL
+         ========================= -->
+
+    <aside
+        th:fragment="sidebar"
+        class="sidebar">
+
+        <div class="menu-title">
+            MENÚ PRINCIPAL
+        </div>
+
+        <!-- Dashboard -->
+        <a th:href="@{/dashboard}">
+            ▦
+            <span>Dashboard</span>
+        </a>
+
+        <!-- Asistencia -->
+        <a
+            th:if="${#authorization.expression(
+                'hasAnyRole(''DOCENTE'',''ADMINISTRADOR'')'
+            )}"
+            th:href="@{/attendance}">
+
+            ✓
+            <span>Asistencia</span>
+
+        </a>
+
+        <!-- Reportes -->
+        <a th:href="@{/reports}">
+            ▤
+            <span>Reportes</span>
+        </a>
+
+        <!-- Justificaciones -->
+        <a
+            th:if="${#authorization.expression(
+                'hasAnyRole(''DOCENTE'',''ADMINISTRADOR'')'
+            )}"
+            th:href="@{/justifications}">
+
+            ↗
+            <span>Justificaciones</span>
+
+        </a>
+
+        <!-- Estudiantes -->
+        <a
+            th:if="${#authorization.expression(
+                'hasRole(''ADMINISTRADOR'')'
+            )}"
+            th:href="@{/students}">
+
+            ◉
+            <span>Estudiantes</span>
+
+        </a>
+
+        <!-- Secciones -->
+        <a
+            th:if="${#authorization.expression(
+                'hasRole(''ADMINISTRADOR'')'
+            )}"
+            th:href="@{/sections}">
+
+            ▥
+            <span>Secciones</span>
+
+        </a>
+
+        <!-- Usuarios -->
+        <a
+            th:if="${#authorization.expression(
+                'hasRole(''ADMINISTRADOR'')'
+            )}"
+            th:href="@{/users}">
+
+            ♙
+            <span>Usuarios</span>
+
+        </a>
+
+    </aside>
+
+</body>
+
+</html>

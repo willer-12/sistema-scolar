@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Dashboard')}">
+</head>
+
+<body>
+
+    <!-- Barra superior -->
+    <div th:replace="~{fragments/layout :: nav}">
+    </div>
+
+    <!-- Menú lateral -->
+    <div th:replace="~{fragments/layout :: sidebar}">
+    </div>
+
+    <main class="content">
+
+        <!-- =========================
+             ENCABEZADO
+             ========================= -->
+
+        <div class="page-head">
+
+            <div>
+
+                <span class="eyebrow dark">
+                    PANEL DE CONTROL
+                </span>
+
+                <h1>
+                    Resumen de asistencia
+                </h1>
+
+                <p>
+                    Vista general del estado registrado hoy.
+                </p>
+
+            </div>
+
+            <a
+                class="btn primary"
+                th:if="${#authorization.expression(
+                    'hasAnyRole(''DOCENTE'',''ADMINISTRADOR'')'
+                )}"
+                th:href="@{/attendance}">
+
+                + Registrar asistencia
+
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             ESTADÍSTICAS
+             ========================= -->
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <span>
+                    Total registros
+                </span>
+
+                <b th:text="${todayTotal}">
+                    0
+                </b>
+
+                <small>
+                    Registros de hoy
+                </small>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    Presentes
+                </span>
+
+                <b th:text="${present}">
+                    0
+                </b>
+
+                <small>
+                    Asistencia confirmada
+                </small>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    Tardanzas
+                </span>
+
+                <b th:text="${late}">
+                    0
+                </b>
+
+                <small>
+                    Requieren seguimiento
+                </small>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    Faltas
+                </span>
+
+                <b th:text="${absent}">
+                    0
+                </b>
+
+                <small>
+                    Inasistencias del día
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             INFORMACIÓN INSTITUCIONAL
+             ========================= -->
+
+        <div class="grid-2">
+
+            <div class="panel welcome">
+
+                <div>
+
+                    <span class="eyebrow dark">
+                        INSTITUCIÓN EDUCATIVA
+                    </span>
+
+                    <h2>
+                        José Faustino Sánchez Carrión
+                    </h2>
+
+                    <p>
+                        San Juan Bautista · Huamanga · Ayacucho
+                    </p>
+
+                </div>
+
+
+                <div class="kpis">
+
+                    <div>
+
+                        <b th:text="${studentCount}">
+                            0
+                        </b>
+
+                        <span>
+                            Estudiantes
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <b th:text="${sectionCount}">
+                            0
+                        </b>
+
+                        <span>
+                            Secciones
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             ACCIONES RÁPIDAS
+             ========================= -->
+
+        <div class="panel">
+
+            <h3>
+                Acciones rápidas
+            </h3>
+
+            <div class="quick-links">
+
+                <a th:href="@{/reports}">
+
+                    Consultar reportes
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    th:if="${#authorization.expression(
+                        'hasRole(''ADMINISTRADOR'')'
+                    )}"
+                    th:href="@{/students}">
+
+                    Gestionar estudiantes
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    th:if="${#authorization.expression(
+                        'hasRole(''ADMINISTRADOR'')'
+                    )}"
+                    th:href="@{/users}">
+
+                    Gestionar usuarios
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

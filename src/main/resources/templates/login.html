@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1">
+
+    <title>
+        Acceso | Control Escolar
+    </title>
+
+    <link
+        rel="stylesheet"
+        th:href="@{/css/app.css}">
+
+</head>
+
+<body class="login-page">
+
+    <div class="login-shell">
+
+        <!-- =========================
+             PRESENTACIÓN
+             ========================= -->
+
+        <section class="login-hero">
+
+            <span class="eyebrow">
+                SISTEMA WEB DE CONTROL DE ASISTENCIA
+            </span>
+
+            <h1>
+                Gestión escolar
+                <br>
+                <strong>
+                    simple, segura y centralizada.
+                </strong>
+            </h1>
+
+            <p>
+                Registro diario, reportes y seguimiento de asistencia
+                para la comunidad educativa.
+            </p>
+
+
+            <!-- Tarjeta de acceso protegido -->
+            <div class="hero-card">
+
+                <span>
+                    ✓
+                </span>
+
+                <div>
+
+                    <b>
+                        Acceso protegido
+                    </b>
+
+                    <small>
+                        Solo Profesor, Administrador y Director
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             FORMULARIO DE LOGIN
+             ========================= -->
+
+        <section class="login-card">
+
+            <!-- Marca -->
+            <div class="brand-big">
+
+                <span class="brand-mark">
+                    JF
+                </span>
+
+                <div>
+
+                    <b>
+                        Control Escolar
+                    </b>
+
+                    <small>
+                        José Faustino Sánchez Carrión
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- Título -->
+            <h2>
+                Iniciar sesión
+            </h2>
+
+            <p class="muted">
+                Ingresa tus credenciales institucionales.
+            </p>
+
+
+            <!-- Mensaje de error -->
+            <div
+                class="alert error"
+                th:if="${param.error}">
+
+                Usuario o contraseña incorrectos.
+
+            </div>
+
+
+            <!-- Mensaje de cierre de sesión -->
+            <div
+                class="alert success"
+                th:if="${param.logout}">
+
+                Sesión cerrada correctamente.
+
+            </div>
+
+
+            <!-- Formulario -->
+            <form
+                th:action="@{/login}"
+                method="post">
+
+                <label>
+
+                    Usuario
+
+                    <input
+                        name="username"
+                        type="text"
+                        placeholder="Ej. profesor"
+                        required
+                        autofocus>
+
+                </label>
+
+
+                <label>
+
+                    Contraseña
+
+                    <input
+                        name="password"
+                        type="password"
+                        placeholder="*********"
+                        required>
+
+                </label>
+
+
+                <button
+                    class="btn primary wide"
+                    type="submit">
+
+                    Ingresar al sistema
+
+                </button>
+
+            </form>
+
+
+            <!-- Usuarios de prueba -->
+            <div class="demo-note">
+
+                <b>
+                    Usuarios de prueba
+                </b>
+
+                <br>
+
+                admin / Admin123! ·
+                director / Director123! ·
+                profesor / Profesor123!
+
+            </div>
+
+        </section>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Secciones')}">
+</head>
+
+<body>
+
+    <!-- Barra superior -->
+    <div th:replace="~{fragments/layout :: nav}">
+    </div>
+
+    <!-- Menú lateral -->
+    <div th:replace="~{fragments/layout :: sidebar}">
+    </div>
+
+    <main class="content">
+
+        <!-- =========================
+             ENCABEZADO
+             ========================= -->
+
+        <div class="page-head">
+
+            <div>
+
+                <span class="eyebrow dark">
+                    DATOS MAESTROS
+                </span>
+
+                <h1>
+                    Secciones
+                </h1>
+
+                <p>
+                    Organización de estudiantes y docentes responsables.
+                </p>
+
+            </div>
+
+            <a
+                class="btn primary"
+                th:href="@{/sections/new}">
+
+                + Nueva sección
+
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             TABLA DE SECCIONES
+             ========================= -->
+
+        <div class="panel">
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Grado</th>
+                            <th>Sección</th>
+                            <th>Docente tutor</th>
+                            <th></th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr th:each="s : ${sections}">
+
+                            <td>
+                                <b th:text="${s.grado}">
+                                </b>
+                            </td>
+
+                            <td th:text="${s.nombre}">
+                            </td>
+
+                            <td th:text="${s.tutorUsername}">
+                            </td>
+
+                            <td>
+
+                                <a
+                                    class="danger-link"
+                                    th:href="@{'/sections/delete/' + ${s.id}}"
+                                    onclick="return confirm('¿Eliminar sección?')">
+
+                                    Eliminar
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

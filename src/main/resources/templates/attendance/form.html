@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Asistencia')}">
+</head>
+
+<body>
+
+    <div th:replace="~{fragments/layout :: nav}">
+    </div>
+
+    <div th:replace="~{fragments/layout :: sidebar}">
+    </div>
+
+    <main class="content">
+
+        <!-- Encabezado -->
+        <div class="page-head">
+
+            <div>
+                <span class="eyebrow dark">REGISTRO DIARIO</span>
+
+                <h1>Asistencia</h1>
+
+                <p>
+                    Marca el estado de cada estudiante y guarda el registro del día.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Filtros -->
+        <div class="panel filters">
+
+            <form method="get"
+                  th:action="@{/attendance}"
+                  class="filter-row">
+
+                <label>
+                    Sección
+
+                    <select name="sectionId">
+
+                        <option
+                            th:each="s : ${sections}"
+                            th:value="${s.id}"
+                            th:selected="${s.id == selectedSection}"
+                            th:text="${s.displayName}">
+                        </option>
+
+                    </select>
+                </label>
+
+                <label>
+                    Fecha
+
+                    <input
+                        type="date"
+                        name="fecha"
+                        th:value="${fecha}">
+                </label>
+
+                <button
+                    class="btn secondary"
+                    type="submit">
+                    Cargar lista
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- Mensaje de éxito -->
+        <div
+            class="alert success"
+            th:if="${param.ok}">
+
+            Asistencia guardada correctamente.
+
+        </div>
+
+        <!-- Tabla de asistencia -->
+        <div
+            class="panel"
+            th:if="${selectedSection != null}">
+
+            <form
+                method="post"
+                th:action="@{/attendance/save}">
+
+                <!-- Datos ocultos -->
+                <input
+                    type="hidden"
+                    name="sectionId"
+                    th:value="${selectedSection}">
+
+                <input
+                    type="hidden"
+                    name="fecha"
+                    th:value="${fecha}">
+
+                <!-- Tabla -->
+                <div class="table-wrap">
+
+                    <table class="attendance-table">
+
+                        <thead>
+                            <tr>
+                                <th>Estudiante</th>
+                                <th class="center">Presente</th>
+                                <th class="center">Tardanza</th>
+                                <th class="center">Falta</th>
+                                <th>Observación</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr th:each="s : ${students}">
+
+                                <!-- Estudiante -->
+                                <td>
+                                    <b th:text="${s.fullName}"></b>
+
+                                    <small th:text="${s.codigo}"></small>
+                                </td>
+
+                                <!-- Presente -->
+                                <td class="center">
+                                    <input
+                                        type="radio"
+                                        th:name="${'estado_' + s.id}"
+                                        value="PRESENTE"
+                                        checked>
+                                </td>
+
+                                <!-- Tardanza -->
+                                <td class="center">
+                                    <input
+                                        type="radio"
+                                        th:name="${'estado_' + s.id}"
+                                        value="TARDANZA">
+                                </td>
+
+                                <!-- Falta -->
+                                <td class="center">
+                                    <input
+                                        type="radio"
+                                        th:name="${'estado_' + s.id}"
+                                        value="FALTA">
+                                </td>
+
+                                <!-- Observación -->
+                                <td>
+                                    <input
+                                        th:name="${'obs_' + s.id}"
+                                        placeholder="Opcional">
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <!-- Botón guardar -->
+                <div class="form-actions">
+
+                    <button
+                        class="btn primary"
+                        type="submit">
+                        Guardar asistencia
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

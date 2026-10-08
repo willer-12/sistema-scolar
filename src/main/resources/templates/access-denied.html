@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Acceso denegado')}">
+</head>
+
+<body>
+
+    <!-- Barra superior -->
+    <div th:replace="~{fragments/layout :: nav}">
+    </div>
+
+    <!-- Menú lateral -->
+    <div th:replace="~{fragments/layout :: sidebar}">
+    </div>
+
+    <main class="content">
+
+        <!-- =========================
+             ACCESO DENEGADO
+             ========================= -->
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                !
+            </div>
+
+            <h2>
+                Acceso denegado
+            </h2>
+
+            <p>
+                No tienes permisos para realizar esta acción
+                con tu rol actual.
+            </p>
+
+            <a
+                class="btn primary"
+                th:href="@{/dashboard}">
+
+                Volver al dashboard
+
+            </a>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

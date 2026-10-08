@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Estudiantes')}">
+</head>
+
+<body>
+
+    <!-- Barra superior -->
+    <div th:replace="~{fragments/layout :: nav}">
+    </div>
+
+    <!-- Menú lateral -->
+    <div th:replace="~{fragments/layout :: sidebar}">
+    </div>
+
+    <main class="content">
+
+        <!-- =========================
+             ENCABEZADO
+             ========================= -->
+
+        <div class="page-head">
+
+            <div>
+
+                <span class="eyebrow dark">
+                    DATOS MAESTROS
+                </span>
+
+                <h1>
+                    Estudiantes
+                </h1>
+
+                <p>
+                    Padrón centralizado por grado y sección.
+                </p>
+
+            </div>
+
+            <a
+                class="btn primary"
+                th:href="@{/students/new}">
+
+                + Nuevo estudiante
+
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             TABLA DE ESTUDIANTES
+             ========================= -->
+
+        <div class="panel">
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Código</th>
+                            <th>Estudiante</th>
+                            <th>DNI</th>
+                            <th>Grado</th>
+                            <th>Sección</th>
+                            <th>Estado</th>
+                            <th></th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr th:each="s : ${students}">
+
+                            <!-- Código -->
+                            <td>
+                                <span class="code">
+                                    [[${s.codigo}]]
+                                </span>
+                            </td>
+
+
+                            <!-- Estudiante -->
+                            <td>
+                                <b>
+                                    [[${s.fullName}]]
+                                </b>
+                            </td>
+
+
+                            <!-- DNI -->
+                            <td th:text="${s.dni}">
+                            </td>
+
+
+                            <!-- Grado -->
+                            <td th:text="${s.section.grado}">
+                            </td>
+
+
+                            <!-- Sección -->
+                            <td th:text="${s.section.nombre}">
+                            </td>
+
+
+                            <!-- Estado -->
+                            <td>
+
+                                <span
+                                    class="badge ok"
+                                    th:if="${s.estado}">
+
+                                    Activo
+
+                                </span>
+
+                                <span
+                                    class="badge off"
+                                    th:unless="${s.estado}">
+
+                                    Inactivo
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- Acción -->
+                            <td>
+
+                                <a
+                                    class="danger-link"
+                                    th:href="@{'/students/delete/' + ${s.id}}"
+                                    onclick="return confirm('¿Eliminar estudiante?')">
+
+                                    Eliminar
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+
+                        <!-- Sin estudiantes -->
+                        <tr th:if="${#lists.isEmpty(students)}">
+
+                            <td
+                                colspan="7"
+                                class="muted center">
+
+                                No hay estudiantes registrados.
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

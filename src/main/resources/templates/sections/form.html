@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Nueva sección')}">
+</head>
+
+<body>
+
+    <!-- Barra superior -->
+    <div th:replace="~{fragments/layout :: nav}">
+    </div>
+
+    <!-- Menú lateral -->
+    <div th:replace="~{fragments/layout :: sidebar}">
+    </div>
+
+    <main class="content narrow">
+
+        <!-- =========================
+             ENCABEZADO
+             ========================= -->
+
+        <div class="page-head">
+
+            <div>
+
+                <span class="eyebrow dark">
+                    DATOS MAESTROS
+                </span>
+
+                <h1>
+                    Registrar sección
+                </h1>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             FORMULARIO
+             ========================= -->
+
+        <div class="panel form-panel">
+
+            <form
+                th:action="@{/sections/save}"
+                th:object="${section}"
+                method="post"
+                class="form-grid">
+
+                <!-- Grado -->
+                <label>
+                    Grado
+
+                    <input
+                        th:field="*{grado}"
+                        required
+                        placeholder="1ro Secundaria">
+                </label>
+
+
+                <!-- Sección -->
+                <label>
+                    Sección
+
+                    <input
+                        th:field="*{nombre}"
+                        required
+                        placeholder="A">
+                </label>
+
+
+                <!-- Docente tutor -->
+                <label>
+                    Docente tutor
+
+                    <select
+                        th:field="*{tutorUsername}"
+                        required>
+
+                        <option value="">
+                            Selecciona…
+                        </option>
+
+                        <option
+                            th:each="u : ${teachers}"
+                            th:value="${u.username}"
+                            th:text="${u.nombres + ' (' + u.username + ')'}">
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <!-- Acciones -->
+                <div class="form-actions">
+
+                    <a
+                        class="btn ghost"
+                        th:href="@{/sections}">
+
+                        Cancelar
+
+                    </a>
+
+                    <button
+                        class="btn primary"
+                        type="submit">
+
+                        Guardar sección
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

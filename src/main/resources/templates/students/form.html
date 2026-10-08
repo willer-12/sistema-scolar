@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Nuevo estudiante')}">
+</head>
+
+<body>
+
+    <!-- Barra superior -->
+    <div th:replace="~{fragments/layout :: nav}">
+    </div>
+
+    <!-- Menú lateral -->
+    <div th:replace="~{fragments/layout :: sidebar}">
+    </div>
+
+    <main class="content narrow">
+
+        <!-- =========================
+             ENCABEZADO
+             ========================= -->
+
+        <div class="page-head">
+
+            <div>
+
+                <span class="eyebrow dark">
+                    DATOS MAESTROS
+                </span>
+
+                <h1>
+                    Registrar estudiante
+                </h1>
+
+                <p>
+                    Completa la información obligatoria.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             FORMULARIO
+             ========================= -->
+
+        <div class="panel form-panel">
+
+            <form
+                th:action="@{/students/save}"
+                th:object="${student}"
+                method="post"
+                class="form-grid">
+
+                <!-- Código -->
+                <label>
+                    Código
+
+                    <input
+                        th:field="*{codigo}"
+                        required
+                        placeholder="EST008">
+                </label>
+
+
+                <!-- DNI -->
+                <label>
+                    DNI
+
+                    <input
+                        th:field="*{dni}"
+                        placeholder="70000000">
+                </label>
+
+
+                <!-- Nombres -->
+                <label>
+                    Nombres
+
+                    <input
+                        th:field="*{nombres}"
+                        required>
+                </label>
+
+
+                <!-- Apellidos -->
+                <label>
+                    Apellidos
+
+                    <input
+                        th:field="*{apellidos}"
+                        required>
+                </label>
+
+
+                <!-- Grado y sección -->
+                <label>
+                    Grado y sección
+
+                    <select
+                        th:field="*{section}"
+                        required>
+
+                        <option value="">
+                            Selecciona…
+                        </option>
+
+                        <option
+                            th:each="s : ${sections}"
+                            th:value="${s.id}"
+                            th:text="${s.displayName}">
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <!-- Estado -->
+                <label>
+                    Estado
+
+                    <select th:field="*{estado}">
+
+                        <option value="true">
+                            Activo
+                        </option>
+
+                        <option value="false">
+                            Inactivo
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <!-- Acciones -->
+                <div class="form-actions">
+
+                    <a
+                        class="btn ghost"
+                        th:href="@{/students}">
+
+                        Cancelar
+
+                    </a>
+
+                    <button
+                        class="btn primary"
+                        type="submit">
+
+                        Guardar estudiante
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

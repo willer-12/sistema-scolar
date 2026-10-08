@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Reportes')}">
+</head>
+
+<body>
+
+    <!-- Barra superior -->
+    <div th:replace="~{fragments/layout :: nav}">
+    </div>
+
+    <!-- Menú lateral -->
+    <div th:replace="~{fragments/layout :: sidebar}">
+    </div>
+
+    <main class="content">
+
+        <!-- =========================
+             ENCABEZADO
+             ========================= -->
+
+        <div class="page-head">
+
+            <div>
+
+                <span class="eyebrow dark">
+                    ANÁLISIS
+                </span>
+
+                <h1>
+                    Reportes de asistencia
+                </h1>
+
+                <p>
+                    Filtra por periodo, sección o estudiante y exporta el resultado.
+                </p>
+
+            </div>
+
+            <!-- Botones de exportación -->
+            <div class="export-actions">
+
+                <a
+                    class="btn secondary"
+                    th:href="@{/reports/export/excel(
+                        desde=${desde},
+                        hasta=${hasta},
+                        sectionId=${sectionId},
+                        studentId=${studentId}
+                    )}">
+                    Excel
+                </a>
+
+                <a
+                    class="btn primary"
+                    th:href="@{/reports/export/pdf(
+                        desde=${desde},
+                        hasta=${hasta},
+                        sectionId=${sectionId},
+                        studentId=${studentId}
+                    )}">
+                    PDF
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             FILTROS
+             ========================= -->
+
+        <div class="panel filters">
+
+            <form
+                method="get"
+                th:action="@{/reports}"
+                class="filter-row four">
+
+                <!-- Fecha desde -->
+                <label>
+                    Desde
+
+                    <input
+                        type="date"
+                        name="desde"
+                        th:value="${desde}">
+                </label>
+
+                <!-- Fecha hasta -->
+                <label>
+                    Hasta
+
+                    <input
+                        type="date"
+                        name="hasta"
+                        th:value="${hasta}">
+                </label>
+
+                <!-- Sección -->
+                <label>
+                    Sección
+
+                    <select name="sectionId">
+
+                        <option value="">
+                            Todas
+                        </option>
+
+                        <option
+                            th:each="s : ${sections}"
+                            th:value="${s.id}"
+                            th:selected="${s.id == sectionId}"
+                            th:text="${s.displayName}">
+                        </option>
+
+                    </select>
+
+                </label>
+
+                <!-- Estudiante -->
+                <label>
+                    Estudiante
+
+                    <select name="studentId">
+
+                        <option value="">
+                            Todos
+                        </option>
+
+                        <option
+                            th:each="s : ${students}"
+                            th:value="${s.id}"
+                            th:selected="${s.id == studentId}"
+                            th:text="${s.fullName}">
+                        </option>
+
+                    </select>
+
+                </label>
+
+                <!-- Aplicar filtros -->
+                <button
+                    class="btn secondary"
+                    type="submit">
+
+                    Aplicar filtros
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- =========================
+             ESTADÍSTICAS
+             ========================= -->
+
+        <div class="stats compact">
+
+            <!-- Total -->
+            <div class="stat">
+
+                <span>
+                    Total
+                </span>
+
+                <b th:text="${total}">
+                </b>
+
+            </div>
+
+            <!-- Presentes -->
+            <div class="stat">
+
+                <span>
+                    Presentes
+                </span>
+
+                <b th:text="${present}">
+                </b>
+
+            </div>
+
+            <!-- Tardanzas -->
+            <div class="stat">
+
+                <span>
+                    Tardanzas
+                </span>
+
+                <b th:text="${late}">
+                </b>
+
+            </div>
+
+            <!-- Faltas -->
+            <div class="stat">
+
+                <span>
+                    Faltas
+                </span>
+
+                <b th:text="${absent}">
+                </b>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             TABLA DE REPORTES
+             ========================= -->
+
+        <div class="panel">
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Estudiante</th>
+                            <th>Sección</th>
+                            <th>Estado</th>
+                            <th>Hora</th>
+                            <th>Registrado por</th>
+                            <th>Observación</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <!-- Registros -->
+                        <tr th:each="a : ${rows}">
+
+                            <!-- Fecha -->
+                            <td th:text="${a.fecha}">
+                            </td>
+
+                            <!-- Estudiante -->
+                            <td>
+
+                                <b th:text="${a.estudiante.fullName}">
+                                </b>
+
+                                <small th:text="${a.estudiante.codigo}">
+                                </small>
+
+                            </td>
+
+                            <!-- Sección -->
+                            <td th:text="${a.section.displayName}">
+                            </td>
+
+                            <!-- Estado -->
+                            <td>
+
+                                <span
+                                    class="badge present"
+                                    th:if="${a.estado.name() == 'PRESENTE'}">
+
+                                    Presente
+
+                                </span>
+
+                                <span
+                                    class="badge late"
+                                    th:if="${a.estado.name() == 'TARDANZA'}">
+
+                                    Tardanza
+
+                                </span>
+
+                                <span
+                                    class="badge absent"
+                                    th:if="${a.estado.name() == 'FALTA'}">
+
+                                    Falta
+
+                                </span>
+
+                            </td>
+
+                            <!-- Hora -->
+                            <td th:text="${a.hora}">
+                            </td>
+
+                            <!-- Registrado por -->
+                            <td th:text="${a.registradoPor}">
+                            </td>
+
+                            <!-- Observación -->
+                            <td th:text="${a.observacion}">
+                            </td>
+
+                        </tr>
+
+
+                        <!-- Sin resultados -->
+                        <tr th:if="${#lists.isEmpty(rows)}">
+
+                            <td
+                                colspan="7"
+                                class="center muted">
+
+                                No hay registros para los filtros seleccionados.
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
